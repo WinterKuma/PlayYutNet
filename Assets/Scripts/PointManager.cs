@@ -10,14 +10,18 @@ public class PointManager : MonoBehaviour
     public PointManager nextPoint2 = null;
     public PointManager shortcutPoint = null;
 
-    private Material material;
+    public PlayerManager onPawn = null;
+
+    private Renderer renderer;
     public Material normalMaterial;
     public bool isMovePossible;
+    public int moveVector;
+    public int moveCount;
 
     // Start is called before the first frame update
     void Start()
     {
-        material = GetComponent<Material>();
+        renderer = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -28,11 +32,9 @@ public class PointManager : MonoBehaviour
 
     public PointManager GetNextPoint(PointManager point)
     {
-        if (nextPoint == null) return this;
-        if (nextPoint2 == null) return nextPoint;
-        else
+        if (nextPoint2)
         {
-            if (point.transform.position.x > 0)
+            if(point.transform.position.x > 0)
             {
                 return nextPoint;
             }
@@ -41,14 +43,15 @@ public class PointManager : MonoBehaviour
                 return nextPoint2;
             }
         }
+        return nextPoint;
     }
 
-    public PointManager GetPrevPoint(PointManager ternimalPoint)
+    public PointManager GetPrevPoint(PointManager point)
     {
-        if (prevPoint2 == null) return prevPoint2;
+        if (prevPoint2 == null) return prevPoint;
         else
         {
-            if (ternimalPoint.transform.position.x < 0)
+            if (point.transform.position.y <= -10)
             {
                 return prevPoint;
             }
@@ -64,16 +67,18 @@ public class PointManager : MonoBehaviour
         return shortcutPoint;
     }
 
-    public void SetMovePossiblePoint(bool possible)
+    public void SetMovePossiblePoint(bool possible, int moveCount, int moveVector)
     {
         isMovePossible = possible;
         if(possible)
         {
-            material.color = Color.red;
+            this.moveCount = moveCount;
+            this.moveVector = moveVector;
+            renderer.material.color = Color.red;
         }
         else
         {
-            material.color = normalMaterial.color;
+            renderer.material.color = normalMaterial.color;
         }
     }
 }
