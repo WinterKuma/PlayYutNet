@@ -14,6 +14,7 @@ public class PawnManager : MonoBehaviour
 {
     public TeamCode teamCode;
 
+    public PlayerManager owner = null;
     public PointManager prevPoint = null;
     public PointManager currentPoint = null;
     public PointManager movePoint = null;
@@ -41,16 +42,16 @@ public class PawnManager : MonoBehaviour
         {
             currentPoint = GameManager.instance.startPoint;
         }
-        if (currentPoint)
+        if (currentPoint.nextPoint)
         {
-            PointManager nextPoint = currentPoint;
-            for(int i = 0; i < moveCount && nextPoint; i++)
+            PointManager nextPoint = currentPoint.nextPoint;
+            for(int i = 1; i < moveCount && nextPoint; i++)
             {
                 nextPoint = nextPoint.GetNextPoint(currentPoint);
             }
             if (nextPoint == null)
             {
-                GameManager.instance.SetVisibleGoalButton(true);
+                GameManager.instance.SetVisibleGoalButton(isPossible);
             }
             else
             {
@@ -66,7 +67,7 @@ public class PawnManager : MonoBehaviour
             }
             if (nextPoint == null)
             {
-                GameManager.instance.SetVisibleGoalButton(true);
+                GameManager.instance.SetVisibleGoalButton(isPossible);
             }
             else
             {
@@ -82,7 +83,7 @@ public class PawnManager : MonoBehaviour
             }
             if (shortcutPoint == null)
             {
-                GameManager.instance.SetVisibleGoalButton(true);
+                GameManager.instance.SetVisibleGoalButton(isPossible);
             }
             else
             {
@@ -114,16 +115,33 @@ public class PawnManager : MonoBehaviour
         Vector3 movedVector = transform.position + moveVector * moveSpeed * Time.deltaTime;
         Vector3 moveDist = movedVector - currentPoint.transform.position;
         moveDist.y = 0;
-        movedVector.y = Mathf.Sin((moveDist.magnitude/(movePoint.transform.position - currentPoint.transform.position).magnitude)*180*Mathf.Deg2Rad) * 2 + 1;
+
+        if(movePoint != currentPoint)
+            movedVector.y = Mathf.Sin((moveDist.magnitude/(movePoint.transform.position - currentPoint.transform.position).magnitude)*180*Mathf.Deg2Rad) * 2 + 1;
 
         transform.position = movedVector;
 
-        if (moveDist.magnitude > (movePoint.transform.position - currentPoint.transform.position).magnitude)
+        if (moveDist.magnitude >= (movePoint.transform.position - currentPoint.transform.position).magnitude)
         {
             transform.position = movePoint.transform.position + new Vector3(0, 1, 0);
             currentPoint = movePoint;
 
-            if (currentPoint == terminalPoint) isMove = false;
+            if (currentPoint == terminalPoint)
+            {
+                if (currentPoint.onPawn)
+                {
+                    PawnManager onPawn = currentPoint.onPawn;
+                    if(onPawn.teamCode != teamCode)
+                    {
+                        onPawn.currentPoint = GameManager.instance.startPoint;
+                        onPawn.transform.position = GameManager.instance.startPoint.transform.position + new Vector3(0, 1, 0);
+                        owner.AddChanceCount();
+                    }
+                }
+                currentPoint.onPawn = this;
+                isMove = false;
+                owner.EndMovePawn();
+            }
             else SetMovePoint();
         }
     }

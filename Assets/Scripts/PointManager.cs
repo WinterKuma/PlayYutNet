@@ -10,7 +10,7 @@ public class PointManager : MonoBehaviour
     public PointManager nextPoint2 = null;
     public PointManager shortcutPoint = null;
 
-    public PlayerManager onPawn = null;
+    public PawnManager onPawn = null;
 
     private Renderer renderer;
     public Material normalMaterial;

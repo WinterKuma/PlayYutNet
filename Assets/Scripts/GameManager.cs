@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
     public PointManager startPoint;
     public PointManager goalPoint;
 
+    public Button playYutButton;
     public Button goalButton;
+    public bool isMyTurn;
 
     // Start is called before the first frame update
     void Start()
@@ -45,5 +47,22 @@ public class GameManager : MonoBehaviour
     public void SetVisibleGoalButton(bool isVisible)
     {
         goalButton.gameObject.SetActive(isVisible);
+    }
+
+    public void SetMyTurn()
+    {
+        isMyTurn = true;
+        localPlayer.isMyTurn = true;
+    }
+
+    public void EndTurn()
+    {
+        isMyTurn = false;
+        localPlayer.isMyTurn = false;
+    }
+
+    public void PlayYut()
+    {
+        localPlayer.PlayYut();
     }
 }
