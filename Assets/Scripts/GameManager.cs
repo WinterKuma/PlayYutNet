@@ -50,9 +50,9 @@ public class GameManager : MonoBehaviour, INetSceneManager
 
     public void GoalPawn()
     {
-        localPlayer.GoalPawn();
+        int movePoint = localPlayer.GoalPawn();
         SetVisibleGoalButton(false);
-        Client.Instance.SetHead("GoalPawn").SetSendTarget().Send();
+        Client.Instance.SetHead("GoalPawn").SetSendTarget().SetData(localPlayer.selectPawn.pawnNum.ToString()+"!"+ movePoint).Send();
     }
 
     public void SetVisibleGoalButton(bool isVisible)
@@ -85,9 +85,22 @@ public class GameManager : MonoBehaviour, INetSceneManager
         Client.Instance.SetHead("PlayYut").SetSendTarget().Send();
     }
 
-    public void EndGame(string name)
+    public void EndGame(Packet packet)
     {
-        winText.text = name + " Win!!!";
+        foreach (var pawn in pawns)
+        {
+            if (pawn.teamCode.ToString().Equals(packet.sendTarget))
+            {
+                string[] datas = packet.data.Split('!');
+                int num = Int32.Parse(datas[0]);
+                if (pawn.pawnNum == num)
+                {
+                    pawn.SelectMovePoint(1, Int32.Parse(datas[1]));
+                }
+            }
+        }
+
+        winText.text = packet.sendTarget + " Win!!!";
         winText.enabled = true;
         QuitButton.gameObject.SetActive(true);
     }
@@ -136,7 +149,7 @@ public class GameManager : MonoBehaviour, INetSceneManager
         }
         else if (packet.head.Equals("GoalPawn"))
         {
-            EndGame(packet.sendTarget);
+            EndGame(packet);
         }
         else
         {

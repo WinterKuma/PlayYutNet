@@ -124,7 +124,7 @@ public class PlayerManager : MonoBehaviour
         GameManager.instance.playYutButton.gameObject.SetActive(true);
     }
 
-    public void GoalPawn()
+    public int GoalPawn()
     {
         foreach (var p in movePointList)
         {
@@ -142,5 +142,6 @@ public class PlayerManager : MonoBehaviour
             }
         }
         movePointList.Remove(minPoint);
+        return minPoint;
     }
 }

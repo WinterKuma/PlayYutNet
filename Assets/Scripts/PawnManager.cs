@@ -46,6 +46,10 @@ public class PawnManager : MonoBehaviour
         {
             currentPoint = GameManager.instance.startPoint;
         }
+        if(currentPoint == GameManager.instance.goalPoint)
+        {
+            GameManager.instance.SetVisibleGoalButton(isPossible);
+        }
         if (currentPoint.nextPoint)
         {
             PointManager nextPoint = currentPoint.nextPoint;
@@ -106,6 +110,7 @@ public class PawnManager : MonoBehaviour
         {
             transform.position = currentPoint.transform.position;
         }
+        currentPoint.onPawn = null;
         prevPoint = currentPoint;
         isMove = true;
         if (moveVector == 1) movePoint = currentPoint.nextPoint;
@@ -122,6 +127,7 @@ public class PawnManager : MonoBehaviour
         {
             transform.position = currentPoint.transform.position;
         }
+        currentPoint.onPawn = null;
         terminalPoint = point;
         prevPoint = currentPoint;
         isMove = true;
