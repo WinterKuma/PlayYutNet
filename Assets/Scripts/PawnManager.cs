@@ -13,21 +13,25 @@ public enum TeamCode
 public class PawnManager : MonoBehaviour
 {
     public TeamCode teamCode;
+    public int pawnNum;
 
     public PlayerManager owner = null;
     public PointManager prevPoint = null;
     public PointManager currentPoint = null;
     public PointManager movePoint = null;
     public PointManager terminalPoint = null;
+    public Vector3 startPosition;
 
     public bool isMove;
     public bool isGoal = false;
     public float moveSpeed = 5.0f;
+    public int moveCount;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameManager.instance.pawns.Add(this);
+        startPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -92,15 +96,39 @@ public class PawnManager : MonoBehaviour
         }
     }
 
+    public int SelectMovePoint(int moveVector, int moveCount)
+    {
+        if(currentPoint == null)
+        {
+            currentPoint = GameManager.instance.startPoint;
+        }
+        if (currentPoint == GameManager.instance.startPoint)
+        {
+            transform.position = currentPoint.transform.position;
+        }
+        prevPoint = currentPoint;
+        isMove = true;
+        if (moveVector == 1) movePoint = currentPoint.nextPoint;
+        if (moveVector == 2) movePoint = currentPoint.nextPoint2;
+        if (moveVector == 3) movePoint = currentPoint.shortcutPoint;
+        this.moveCount = moveCount;
+        return moveCount;
+    }
+
     public int SelectMovePoint(PointManager point)
     {
         if (currentPoint == point) return 0;
+        if (currentPoint == GameManager.instance.startPoint)
+        {
+            transform.position = currentPoint.transform.position;
+        }
         terminalPoint = point;
         prevPoint = currentPoint;
         isMove = true;
         if(point.moveVector == 1) movePoint = currentPoint.nextPoint;
         if(point.moveVector == 2) movePoint = currentPoint.nextPoint2;
         if(point.moveVector == 3) movePoint = currentPoint.shortcutPoint;
+        moveCount = point.moveCount;
         return point.moveCount;
     }
 
@@ -126,7 +154,7 @@ public class PawnManager : MonoBehaviour
             transform.position = movePoint.transform.position + new Vector3(0, 1, 0);
             currentPoint = movePoint;
 
-            if (currentPoint == terminalPoint)
+            if (--moveCount <= 0)
             {
                 if (currentPoint.onPawn)
                 {
@@ -134,7 +162,7 @@ public class PawnManager : MonoBehaviour
                     if(onPawn.teamCode != teamCode)
                     {
                         onPawn.currentPoint = GameManager.instance.startPoint;
-                        onPawn.transform.position = GameManager.instance.startPoint.transform.position + new Vector3(0, 1, 0);
+                        onPawn.transform.position = onPawn.startPosition;
                         owner.AddChanceCount();
                     }
                 }

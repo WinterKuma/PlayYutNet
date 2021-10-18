@@ -5,5 +5,5 @@ using UnityEngine;
 
 public interface INetSceneManager
 {
-    public void ServerCommand(ClnInfo client, Packet packet);
+    public void ServerCommand(Packet packet);
 }

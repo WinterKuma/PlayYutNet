@@ -13,7 +13,7 @@ namespace ClientWGcs
     public class ClientSocket
     {
         public bool isLife = true;
-        ClnInfo client;
+        public ClnInfo client;
         Socket socket;
         public INetSceneManager netManager;
 
@@ -66,16 +66,16 @@ namespace ClientWGcs
                 Packet packet = new Packet();
                 packet.SetBytesToPacket(client.rcvBuffer, bytesRead);
 
-                Debug.LogFormat("Receive Data : {0}", packet.data);
-                ServerCommand(client, packet);
+                Debug.LogFormat("Receive Data : {0} {1} {2}", packet.head, packet.sendTarget, packet.data);
+                ServerCommand(packet);
 
                 Receive();
             }
         }
 
-        public void ServerCommand(ClnInfo client, Packet packet)
+        public void ServerCommand(Packet packet)
         {
-            netManager.ServerCommand(client, packet);
+            netManager.ServerCommand(packet);
         }
     }
 }

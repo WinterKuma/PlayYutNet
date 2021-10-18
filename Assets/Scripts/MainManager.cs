@@ -9,18 +9,23 @@ using UnityEngine.UI;
 public class MainManager : MonoBehaviour, INetSceneManager
 {
     public Button readyButton;
-    string userName;
+    string userName = null;
+    bool isJoinInGame = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        Client.Instance.netManager = this;
+        Client.Instance.SetNetManager(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (isJoinInGame)
+        {
+            isJoinInGame = false;
+            SceneManager.LoadScene("InGameScene");
+        }
     }
 
     public void SetUserName(string name)
@@ -40,15 +45,16 @@ public class MainManager : MonoBehaviour, INetSceneManager
         Client.Instance.Send();
     }
 
-    public void ServerCommand(ClnInfo client, Packet packet)
+    public void JoinInGame()
     {
-        if (packet.head.Equals("NameChange"))
+        isJoinInGame = true;
+    }
+
+    public void ServerCommand(Packet packet)
+    {
+        if (packet.head.Equals("JoinMatchingRoom"))
         {
-            client.userName = packet.sendTarget;
-        }
-        else if (packet.head.Equals("JoinRoom"))
-        {
-            Client.Instance.Send(packet.PacketToBytes());
+            Client.Instance.clientInfo.userName = packet.data;
         }
         else if(packet.head.Equals("RoomIsMax"))
         {
@@ -56,7 +62,8 @@ public class MainManager : MonoBehaviour, INetSceneManager
         }
         else if (packet.head.Equals("JoinInGameRoom"))
         {
-            SceneManager.LoadScene("InGameScene");
+            //Client.Instance.clientInfo.userName = packet.sendTarget;
+            JoinInGame();
         }
         else if (packet.head.Equals("Exit"))
         {
@@ -64,7 +71,7 @@ public class MainManager : MonoBehaviour, INetSceneManager
         }
         else
         {
-            Client.Instance.Send(packet.PacketToBytes());
+            //Client.Instance.Send(packet.PacketToBytes());
         }
     }
 }

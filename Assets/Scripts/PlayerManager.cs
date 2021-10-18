@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public string teamCode;
     public List<PawnManager> pawns = new List<PawnManager>();
     public List<int> movePointList = new List<int>();
     public PawnManager selectPawn = null;
@@ -15,12 +16,14 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach(var pawn in pawns)
-        {
-            pawn.owner = this;
-        }
 
-        enabled = (GameManager.instance.localPlayer == this);
+    }
+
+    public void SetPawn(PawnManager pawn)
+    {
+        pawns.Add(pawn);
+        pawn.owner = this;
+        pawn.pawnNum = pawns.Count - 1;
     }
 
     // Update is called once per frame
@@ -63,6 +66,7 @@ public class PlayerManager : MonoBehaviour
                         selectPawn.SetPossibleMovePoint(movePoint, false);
                     }
                     movePointList.Remove(selectPawn.SelectMovePoint(point));
+                    Client.Instance.SetHead("MovePawn").SetSendTarget().SetData(selectPawn.pawnNum.ToString() + "!" + point.moveVector + "!" + point.moveCount).Send();
                 }
             }
         }
@@ -94,6 +98,21 @@ public class PlayerManager : MonoBehaviour
         }
 
         if(--chanceCount == 0)
+        {
+            GameManager.instance.playYutButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void PlayYut(int num)
+    {
+        if (chanceCount == 0) return;
+        movePointList.Add(num);
+
+        if (num > 3)
+        {
+            AddChanceCount();
+        }
+        if (--chanceCount == 0)
         {
             GameManager.instance.playYutButton.gameObject.SetActive(false);
         }
