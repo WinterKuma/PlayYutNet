@@ -1,0 +1,17 @@
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\ClientWGcs.exe
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\ClientWGcs.deps.json
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\ClientWGcs.runtimeconfig.json
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\ClientWGcs.runtimeconfig.dev.json
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\ClientWGcs.dll
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\ClientWGcs.pdb
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.AssemblyInfoInputs.cache
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.AssemblyInfo.cs
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.csproj.CoreCompileInputs.cache
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.dll
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.pdb
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.genruntimeconfig.cache
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.csproj.AssemblyReference.cache
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\SocketWGcs.dll
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\bin\Debug\netcoreapp3.1\SocketWGcs.pdb
+C:\Users\Gomjun\source\repos\ServerWGcs\ClientWGcs\obj\Debug\netcoreapp3.1\ClientWGcs.csproj.CopyComplete

@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "ClientWGcs/1.0.0": {
+        "dependencies": {
+          "SocketWGcs": "1.0.0"
+        },
+        "runtime": {
+          "ClientWGcs.dll": {}
+        }
+      },
+      "SocketWGcs/1.0.0": {
+        "runtime": {
+          "SocketWGcs.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ClientWGcs/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SocketWGcs/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
